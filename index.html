@@ -9,6 +9,7 @@
     <title>Document</title>
 </head>
 <body>
+
     <!-- Header -->
     <header class="container-fluid text-center mb-4 p-4 bg-dark text-light">
         <h1>Weather Dashboard</h1>
@@ -17,53 +18,62 @@
     <!-- Search Box -->
     <div class="container-fluid row">
 
-        <div class="jumbotron col-12 text-center bg-dark">
+        <!-- Initial Search Screen -->
+        <!-- <section class="col jumbotron m-5 p-5" id="startScreen">
+            <div class="text-center">
                 <h3>Welcome!</h3>
-                <p>Search for a city to see the weather.</p>
-        </div>
-        <!-- Search Area -->
-        <aside class="col-lg-3 m-3 p-2">
-            <h5 class="mt-1">Search for a City</h5>
-            <div class="form-inline form-group">
-                <input type="text" class="form-control" id="search-value"/>
-                <button class="btn btn-dark" id="search-button">Search</button>
+                <p class="text-center">Search for a city to see the weather.</p>
+                <div class="text-center form-inline form-group">
+                    <input type="text" class="form-control" id="search-value"/>
+                    <button class="btn btn-dark" id="initial-search-button">Search</button>
+                </div>
             </div>
-        </aside>
+        </section> -->
 
-        <!-- Main Dashboard -->
-        <div class="col-lg-8">
-            <section class="row">
-                <div class="col-12 m-3 p-2" style="width: 18rem;" id="mainDashboard">
-                    <div class="card-body row">
-                        <h3 class="card-title today p-1"></h3>
+        <!-- Main Page (Appears after search) -->
+            <!-- Search Area -->
+            <aside class="col-lg-3 m-3 p-2">
+                <h5 class="mt-1">Search for a City</h5>
+                <div class="form-inline form-group">
+                    <input type="text" class="form-control" id="search-value"/>
+                    <button class="btn btn-dark" id="search-button">Search</button>
+                </div>
+            </aside>
+
+            <!-- Main Dashboard -->
+            <div class="col-lg-8">
+                <section class="row">
+                    <div class="col-12 m-3 p-2" style="width: 18rem;" id="mainDashboard">
+                        <div class="card-body row">
+                            <h3 class="card-title today p-1"></h3>
+                        </div>
+                        <section class="stats">
+                            <h4 id="currentDate"class="card-text m-1 p-1"></h4>
+                            <!-- Actual Temperature -->
+                            <p id="todaysTemp" class="card-text m-1 p-1"></p>
+                            <!-- Feels like Temperature --> 
+                            <p id="todaysFeels" class="card-text m-1 p-1"></p>
+                            <!-- Humidity --> 
+                            <p id="todaysHumid" class="card-text m-1 p-1"></p>
+                            <!-- UV index -->
+                            <p class="uv m-1 p-1 uvIndex"></p>
+                            <button class="uvNum  m-1 p-1 uvIndex"></button>
+                        </section>
                     </div>
-                    <section class="stats">
-                        <h4 id="currentDate"class="card-text m-1 p-1"></h4>
-                        <!-- Actual Temperature -->
-                        <p id="todaysTemp" class="card-text m-1 p-1"></p>
-                        <!-- Feels like Temperature --> 
-                        <p id="todaysFeels" class="card-text m-1 p-1"></p>
-                        <!-- Humidity --> 
-                        <p id="todaysHumid" class="card-text m-1 p-1"></p>
-                        <!-- UV index -->
-                        <p class="uv m-1 p-1 uvIndex"></p>
-                        <button class="uvNum  m-1 p-1 uvIndex"></button>
-                    </section>
-                </div>
-            </section>
+                </section>
 
 
-            <!-- Cards to populate  -->
-            <div class="col-3 card" style="width: 18rem;">
-                <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <!-- Cards to populate  -->
+                <div class="col-3 card" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 id="date" class="card-title">9/19/2019</h5>
+                    <img id="pic" class="card-subtitle mb-2 text-muted">
+                    <p id="temp" class="card-text">Temp:</p>
+                    <p id="humid" class="card-text">Humidty:</p>
+                    
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 
 

@@ -2,6 +2,21 @@ h1 {
     color: white;
 }
 
+/* Jumbotron styling */
+/* .jumbotron {
+    background-color: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    text-align: center;
+}
+
+.jumbotron > h3, p {
+    color: white;
+}
+.jumbotron > p {
+    font-size: large;
+} */
+
+
 /* Main Dasboard border
 #mainDashboard{
     border: 1px groove grey;

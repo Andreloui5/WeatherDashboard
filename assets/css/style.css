@@ -17,11 +17,11 @@ h1 {
 } */
 
 
-/* Main Dasboard border
-#mainDashboard{
-    border: 1px groove grey;
-    overflow-wrap: normal;
-} */
+/* Main Column styling */
+.dynamicCard {
+    width: 18rem;
+}
+
 /* surround for the uv index */
 .uvIndex {
     display: inline-block;

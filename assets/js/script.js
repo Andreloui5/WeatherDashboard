@@ -34,22 +34,31 @@ function fiveDayForcast(lat, lon){
         url:  "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lat + "&lon=" + lon + weatherApiKey,
         type: "GET",
     }).then(function(response){
-        console.log(response)
-        //adds a class of card to the main dashboard (enabling the light border)
-        // var dashboard = $("#mainDashboard").addClass("card");
-        // // Adds the title to the page: '____' weather details:
-        // var title = $(".today").html(response.name + " weather details:");
-        // //puts today's date on the page
-        // var currentDate = $("#currentDate").text(moment().format("l"));
-        // //puts today's temperature on the page
-        // var todaysTemp = $("#todaysTemp").text("Temperature: " + response.main.temp + "°F");
-        // //puts today's 'feels like' temperature on the page
-        // var todaysFeels = $("#todaysFeels").text("Feels like: " + response.main.feels_like + "°F");
-        // //puts today's humidity on the page
-        // var todaysHumid = $("#todaysHumid").text("Humidity: " + response.main.humidity + "%");
-    });
-
-}
+        let weatherArray = response.list
+        $("#mainColumn").empty();
+        //for loop over the array, beginning at 3, and using an iteration of 8(24hours), so that the data will be taken at 12pm each day.
+        for (let i = 3; i < weatherArray.length; i += 8) {
+            let newDiv= $("<div>");
+            let shortDate = weatherArray[i].dt_txt
+            shortDate = shortDate.substring(0,10);
+            let theDate = $("<h4>"  + shortDate + "</h4>");
+            let tempWord = $("<p>Temp: " + weatherArray[i].main.temp + "°F</p>")
+            let humid = $("<p>Humidity: " + weatherArray[i].main.humidity + "%</p>")
+            theDate.addClass("card-title text-center");
+            tempWord.addClass("card-text");
+            humid.addClass("card-text");
+            let weatherSymbol = $("<img>");
+            weatherSymbol.attr("src", "http://openweathermap.org/img/wn/" + weatherArray[i].weather[0].icon + "@2x.png");
+            weatherSymbol.addClass("card-img");
+            newDiv.addClass("col-3 card float-left dynamicCard");
+            newDiv.append(theDate);
+            newDiv.append(weatherSymbol);
+            newDiv.append(tempWord);
+            newDiv.append(humid);
+            $("#mainColumn").append(newDiv);
+        }
+    })
+};
 
 
 function getUV(lat, lon){

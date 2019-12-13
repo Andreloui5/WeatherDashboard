@@ -1,3 +1,9 @@
 h1 {
     color: white;
 }
+
+/* surround for the uv index */
+.uvNum {
+    display: inline-block;
+    border: 1px groove black;
+}

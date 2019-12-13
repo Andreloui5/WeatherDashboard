@@ -37,9 +37,26 @@ function getUV(lat, lon){
         type: "GET",
     }).then(function(response){
         console.log(response);
-
-        var title = $(".uv").html("<p>UV index: " + response.value + "<p>");
-        if (title )
+        //adds text stating the current UV Index at the chosen location
+        var uvStaticText = $(".uv")
+        uvStaticText.html("<p>UV index: " + "<span>" + response.value + "</span>" + "<p>");
+        uvStaticText.children("span").addClass("uvNum");
+        // changes the colors based on UV index
+        if (response.value < 3) {
+            $(".uvNum").css("background-color", "#3EA72D")
+        }
+        else if ((response.value >= 3) && (response.value < 6)) {
+            $(".uvNum").css("background-color", "#FFF300")
+        }
+        else if ((response.value >= 6) && (response.value < 8)) {
+            $(".uvNum").css("background-color", "#F18B00")
+        }
+        else if ((response.value >= 8) && (response.value < 11)) {
+            $(".uvNum").css("background-color", "#E53210")
+        }
+        else if (response.value > 11){
+            $(".uvNum").css("background-color", "#B567A4")
+        }
     })
 
 }

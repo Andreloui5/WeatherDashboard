@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 h1 {
     color: white;
 }
@@ -15,11 +19,15 @@ h1 {
 .jumbotron > p {
     font-size: large;
 } */
-
-
 /* Main Column styling */
 .dynamicCard {
-    width: 18rem;
+    width: 170px;
+    height: auto;
+    margin: 0 10px 10px 0;
+    
+}
+.marginTop {
+    margin-top: 20px;    
 }
 
 /* surround for the uv index */
@@ -29,3 +37,6 @@ h1 {
 .uvNum {
     border: none;
 }
+
+/* Media Query */
+@media 

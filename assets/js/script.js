@@ -23,7 +23,9 @@ function currentWeather(searchValue){
         var todaysFeels = $("#todaysFeels").text("Feels like: " + response.main.feels_like + "°F");
         //puts today's humidity on the page
         var todaysHumid = $("#todaysHumid").text("Humidity: " + response.main.humidity + "%");
+        //Calls function to retrieve UV Index
         getUV(response.coord.lat, response.coord.lon)
+        // Calls function to populate the five day forcast
         fiveDayForcast(response.coord.lat, response.coord.lon);
     });
 
@@ -35,26 +37,43 @@ function fiveDayForcast(lat, lon){
         type: "GET",
     }).then(function(response){
         let weatherArray = response.list
+        console.log(weatherArray);
+        //empties out dynamically created elements from previous search
         $("#mainColumn").empty();
         //for loop over the array, beginning at 3, and using an iteration of 8(24hours), so that the data will be taken at 12pm each day.
         for (let i = 3; i < weatherArray.length; i += 8) {
+            //Creates a new div
             let newDiv= $("<div>");
+            // Names and retrieves the date
             let shortDate = weatherArray[i].dt_txt
+            //shortens the date to exclude the timestamp
             shortDate = shortDate.substring(0,10);
-            let theDate = $("<h4>"  + shortDate + "</h4>");
+            // Creates new h4 t display the date
+            let theDate = $("<h5>"  + shortDate + "</h5>");
+            // creates a p tag with forcasted temperature
             let tempWord = $("<p>Temp: " + weatherArray[i].main.temp + "°F</p>")
+            // creates a p tag with forcasted humidity
             let humid = $("<p>Humidity: " + weatherArray[i].main.humidity + "%</p>")
-            theDate.addClass("card-title text-center");
+            //adds classes to the date element
+            theDate.addClass("card-title text-center marginTop");
+            //adds class to the temperature element
             tempWord.addClass("card-text");
+            //adds class to the humidity element
             humid.addClass("card-text");
+            // Creates an img tag to display the forcast icon
             let weatherSymbol = $("<img>");
-            weatherSymbol.attr("src", "http://openweathermap.org/img/wn/" + weatherArray[i].weather[0].icon + "@2x.png");
+            // Creates a src url for the img element
+            weatherSymbol.attr("src", "http://openweathermap.org/img/w/" + weatherArray[i].weather[0].icon + ".png");
+            //Adds a class to the img element
             weatherSymbol.addClass("card-img");
+            //adds classes to the div element
             newDiv.addClass("col-3 card float-left dynamicCard");
+            //Appends all the different elements to the div
             newDiv.append(theDate);
             newDiv.append(weatherSymbol);
             newDiv.append(tempWord);
             newDiv.append(humid);
+            // Appends the div to the appropriate id on the page
             $("#mainColumn").append(newDiv);
         }
     })

@@ -3,7 +3,9 @@ h1 {
 }
 
 /* surround for the uv index */
-.uvNum {
+.uvIndex {
     display: inline-block;
-    border: 1px groove black;
+}
+.uvNum {
+    border: none;
 }

@@ -11,8 +11,11 @@ function currentWeather(searchValue){
         type: "GET",
     }).then(function(response){
 
-        var title = $(".today").html("<h3>" + response.name + " weather details:<h3>" + "Temperature " + response.main.temp + "°");
-        
+        var title = $(".today").html(response.name + " weather details:");
+        var todaysTemp = $("#todaysTemp").text("Temperature: " + response.main.temp + "°");
+        //provides today's date
+        var currentDate = $("#currentDate").text(moment().format("l"));
+
         getUV(response.coord.lat, response.coord.lon)
     });
 
@@ -24,9 +27,8 @@ function getForcast(searchValue){
         type: "GET",
     }).then(function(response){
         console.log(response);
-
-        var title1 = $(".forcast").html("<p>" +"Feels like: " + response.main.feels_like + "<p>");
-
+        // Adds feels like temp to the main dashboard
+        var todaysFeels = $("#todaysFeels").text("Feels like: " + response.main.feels_like + "°")
     })
 
 }
@@ -38,9 +40,8 @@ function getUV(lat, lon){
     }).then(function(response){
         console.log(response);
         //adds text stating the current UV Index at the chosen location
-        var uvStaticText = $(".uv")
-        uvStaticText.html("<p>UV index: " + "<span>" + response.value + "</span>" + "<p>");
-        uvStaticText.children("span").addClass("uvNum");
+        var uvStaticText = $(".uv").text("UV index: ");
+        var uvNum = $(".uvNum").text(response.value)
         // changes the colors based on UV index
         if (response.value < 3) {
             $(".uvNum").css("background-color", "#3EA72D")
@@ -63,13 +64,12 @@ function getUV(lat, lon){
 
 //When search button is clicked, this records that data
 $("#search-button").on("click", function(){
-    var searchValue = $("#search-value").val()
+    //makes variable for the value the user inputs into the search area and trims it
+    var searchValue = $("#search-value").val().trim()
 
     //searches openweather for:
     currentWeather(searchValue)
     getForcast(searchValue)
-
-
 })
 
 

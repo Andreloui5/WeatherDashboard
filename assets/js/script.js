@@ -4,6 +4,7 @@ $(document).ready(function() {
     const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
     const weatherApiKey = "&appid=7ba67ac190f85fdba2e2dc6b9d32e93c&units=imperial"
     let savedCities = [];
+    let uniqueArray = [];
 
 addCities()
 
@@ -43,6 +44,7 @@ function fiveDayForcast(lat, lon){
         //empties out dynamically created elements from previous search
         $("#mainColumn").empty();
         //for loop over the array, beginning at 3, and using an iteration of 8(24hours), so that the data will be taken at 12pm each day.
+        
         for (let i = 0; i < weatherArray.length; i ++) {
             if (weatherArray[i].dt_txt.indexOf("15:00:00") !== -1) {
             //Creates a new div
@@ -122,8 +124,13 @@ function addCities(){
     }
     //adds cities stored in local storage to array of cities
     savedCities.push(restoredCities);
-};
 
+    // for (let i = 0; i < savedCities.length; i++) {
+      
+    
+        
+    // }
+};
 
 // Make jumbotron initial search button (it searches and then collapses/empties everything)
 // $("#initial-search-button").on("click", function(){
@@ -139,11 +146,12 @@ function addCities(){
 $("#search-button").on("click", function(){
     //makes variable for the value the user inputs into the search area and trims it
     var searchValue = $("#search-value").val().trim()
-    
+    //puts the city searched for into an array in local storage
     savedCities.push(searchValue)
     localStorage.setItem("cities", savedCities);
+
+    $("#fiveDay").removeClass("display");
     //searches openweather for:
-    // addCity()
     currentWeather(searchValue)
 })
 

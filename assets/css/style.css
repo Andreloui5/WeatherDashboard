@@ -51,3 +51,7 @@ footer {
 .uvNum {
     border: none;
 }
+
+.display {
+display: none;
+}

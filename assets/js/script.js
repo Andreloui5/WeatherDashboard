@@ -1,9 +1,11 @@
 $(document).ready(function() {
+    AOS.init();
 
     const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
     const weatherApiKey = "&appid=7ba67ac190f85fdba2e2dc6b9d32e93c&units=imperial"
+    let savedCities = [];
 
-
+addCities()
 
 function currentWeather(searchValue){
     $.ajax({
@@ -37,11 +39,12 @@ function fiveDayForcast(lat, lon){
         type: "GET",
     }).then(function(response){
         let weatherArray = response.list
-        console.log(weatherArray);
+        // console.log(weatherArray);
         //empties out dynamically created elements from previous search
         $("#mainColumn").empty();
         //for loop over the array, beginning at 3, and using an iteration of 8(24hours), so that the data will be taken at 12pm each day.
-        for (let i = 3; i < weatherArray.length; i += 8) {
+        for (let i = 0; i < weatherArray.length; i ++) {
+            if (weatherArray[i].dt_txt.indexOf("15:00:00") !== -1) {
             //Creates a new div
             let newDiv= $("<div>");
             // Names and retrieves the date
@@ -75,6 +78,7 @@ function fiveDayForcast(lat, lon){
             newDiv.append(humid);
             // Appends the div to the appropriate id on the page
             $("#mainColumn").append(newDiv);
+            }
         }
     })
 };
@@ -109,6 +113,18 @@ function getUV(lat, lon){
 
 }
 
+function addCities(){
+    //retrieves cities searched for in the past
+    let restoredCities = localStorage.getItem("cities");
+    //if null, function returns
+    if (restoredCities === null) {
+        return
+    }
+    //adds cities stored in local storage to array of cities
+    savedCities.push(restoredCities);
+};
+
+
 // Make jumbotron initial search button (it searches and then collapses/empties everything)
 // $("#initial-search-button").on("click", function(){
 //     //makes variable for the value the user inputs into the search area and trims it
@@ -123,11 +139,22 @@ function getUV(lat, lon){
 $("#search-button").on("click", function(){
     //makes variable for the value the user inputs into the search area and trims it
     var searchValue = $("#search-value").val().trim()
+    
+    savedCities.push(searchValue)
+    localStorage.setItem("cities", savedCities);
     //searches openweather for:
+    // addCity()
     currentWeather(searchValue)
 })
 
-
+//When search button is clicked, this records that data
+$(".savedSearches").on("click", function(){
+    //makes variable for the value the user inputs into the search area and trims it
+    var searchValue = $(this).val().trim()
+    
+    //searches openweather for:
+    currentWeather(searchValue)
+})
 
 
 });

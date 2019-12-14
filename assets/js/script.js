@@ -4,7 +4,7 @@ $(document).ready(function() {
     const weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q="
     const weatherApiKey = "&appid=7ba67ac190f85fdba2e2dc6b9d32e93c&units=imperial"
     let savedCities = [];
-    let uniqueArray = [];
+    newArray = [];
 
 addCities()
 
@@ -115,21 +115,47 @@ function getUV(lat, lon){
 
 }
 
+function storeCities(){
+  //retrieves cities searched for in the past
+  let restoredCity = localStorage.getItem("city");
+  savedCities.push({
+      "city": restoredCity
+  });
+  localStorage.setItem("cities", JSON.stringify(savedCities));
+}
+
+
 function addCities(){
-    //retrieves cities searched for in the past
-    let restoredCities = localStorage.getItem("cities");
+    let restoredCities = JSON.parse(localStorage.getItem("cities"));
+    console.log(restoredCities);
     //if null, function returns
     if (restoredCities === null) {
         return
     }
-    //adds cities stored in local storage to array of cities
-    savedCities.push(restoredCities);
 
-    // for (let i = 0; i < savedCities.length; i++) {
-      
-    
-        
-    // }
+    for (let i = 0; i < restoredCities.length; i++) {
+    //  Makes a new div
+        let divOne = $("<div>");
+        divOne.addClass("form-inline form-group row");
+        // makes button with city name
+        let buttonOne = $("<button>");
+        buttonOne.text(restoredCities[i].city);
+        buttonOne.addClass("form-control col-8 search");
+        buttonOne.attr("id", restoredCities[i].city);
+        // makes a button that will house a font awesome trashcan (delete) icon
+        let buttonTwo = $("<button>");
+        buttonTwo.addClass("delete form-control col-4");
+        // the trashcan icon
+        let fontAwesome = $("<i>");
+        fontAwesome.addClass("fa fa-trash-o");
+        //append fontAwesome to its button
+        buttonTwo.append(fontAwesome);
+        //appends city button to overall div
+        divOne.append(buttonOne);
+        //appends button with trash symbol to button with city name
+        divOne.append(buttonTwo);
+        $("#savedSearches").append(divOne);
+    }
 };
 
 // Make jumbotron initial search button (it searches and then collapses/empties everything)
@@ -144,25 +170,40 @@ function addCities(){
 
 //When search button is clicked, this records that data
 $("#search-button").on("click", function(){
+    event.preventDefault()
     //makes variable for the value the user inputs into the search area and trims it
     var searchValue = $("#search-value").val().trim()
-    //puts the city searched for into an array in local storage
-    savedCities.push(searchValue)
-    localStorage.setItem("cities", savedCities);
-
+    if (searchValue === "") {
+        return
+    }
+    //puts the city searched for in local storage
+    localStorage.setItem("city", searchValue);
+    //adds to array in local storage
     $("#fiveDay").removeClass("display");
     //searches openweather for:
-    currentWeather(searchValue)
+    currentWeather(searchValue);
+    addCities();
 })
 
 //When search button is clicked, this records that data
-$(".savedSearches").on("click", function(){
+$(".search").on("click", function(){
+    event.preventDefault();
     //makes variable for the value the user inputs into the search area and trims it
-    var searchValue = $(this).val().trim()
-    
+    var searchValue = $(this).attr("id");
+    console.log($(this).attr("id"))
     //searches openweather for:
     currentWeather(searchValue)
 })
 
+//On Click, this deletes the
+$(".delete").click(function(){
+    // for(var i = restoredCities.length - 1; i >= 0; i--) {
+    //     if(restoredCities[i] === cities) {
+    //        restoredCities.splice(i, 1);
+    //     }
+    // }
+    //I will be adding a way to figure out a way to delet this city from our saved array-- it just hasn't happened yet.
+    $(this).closest("div").remove();
+  });
 
 });

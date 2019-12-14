@@ -55,3 +55,7 @@ footer {
 .display {
 display: none;
 }
+
+i {
+    font-weight: 900;
+}

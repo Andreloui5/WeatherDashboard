@@ -13,7 +13,7 @@ function currentWeather(searchValue){
         url: weatherUrl + searchValue + weatherApiKey,
         type: "GET",
     }).then(function(response){
-        // console.log(response)
+        console.log(response)
         //adds a class of card to the main dashboard (enabling the light border)
         var dashboard = $("#mainDashboard").addClass("card");
         // Adds the title to the page: '____' weather details:
@@ -26,6 +26,8 @@ function currentWeather(searchValue){
         var todaysFeels = $("#todaysFeels").text("Feels like: " + response.main.feels_like + "°F");
         //puts today's humidity on the page
         var todaysHumid = $("#todaysHumid").text("Humidity: " + response.main.humidity + "%");
+        //puts today's humidity on the page
+        var todaysHumid = $("#todaysWind").text("Wind Speed: " + response.wind.speed + "mph");
         //Calls function to retrieve UV Index
         getUV(response.coord.lat, response.coord.lon)
         // Calls function to populate the five day forcast
@@ -132,7 +134,7 @@ function addCities(){
     if (restoredCities === null) {
         return
     }
-
+    $("#savedSearches").empty();
     for (let i = 0; i < restoredCities.length; i++) {
     //  Makes a new div
         let divOne = $("<div>");
@@ -158,16 +160,6 @@ function addCities(){
     }
 };
 
-// Make jumbotron initial search button (it searches and then collapses/empties everything)
-// $("#initial-search-button").on("click", function(){
-//     //makes variable for the value the user inputs into the search area and trims it
-//     var searchValue = $("#initial-search-value").val()
-//     $("#startScreen").remove();
-//     $("#mainPage").removeClass("collapse");
-//     //searches openweather for:
-//     currentWeather(searchValue)
-// })
-
 //When search button is clicked, this records that data
 $("#search-button").on("click", function(){
     event.preventDefault()
@@ -182,6 +174,7 @@ $("#search-button").on("click", function(){
     $("#fiveDay").removeClass("display");
     //searches openweather for:
     currentWeather(searchValue);
+    storeCities();
     addCities();
 })
 
@@ -205,5 +198,17 @@ $(".delete").click(function(){
     //I will be adding a way to figure out a way to delet this city from our saved array-- it just hasn't happened yet.
     $(this).closest("div").remove();
   });
+
+// Make jumbotron initial search button (it searches and then collapses/empties everything)
+// $("#initial-search-button").on("click", function(){
+//     //makes variable for the value the user inputs into the search area and trims it
+//     var searchValue = $("#initial-search-value").val()
+//     $("#startScreen").remove();
+//     $("#mainPage").removeClass("collapse");
+//     //searches openweather for:
+//     currentWeather(searchValue)
+// })
+
+
 
 });
